@@ -3,9 +3,9 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: AirCloud Blog
+title: HuaiShuo's Blog
 subtitle: sometimes code， sometimes design
-author: Xiaotao Nie
+author: 怀朔
 language: zh
 timezone:
 
@@ -20,19 +20,13 @@ permalink_defaults:
 
 # Site settings
 # 网站综合内容设置：
-SEOTitle: AirCloud的博客 | AirCloud's Blog
+SEOTitle: 怀朔的博客 | HuaiShuo's Blog
 email: onlythen@yeah.net
-description: "聂小涛的博客"
-keyword: "腾讯"
+description: "怀朔的博客"
+keyword: "前端"
 
 # SNS settings
 # 一些社交平台地址，支持以下几种：
-weibo_username:     3286578617
-zhihu_username:     ai-er-lan-xue-da
-github_username:    AirCloud
-twitter_username:   iconie_alloy
-facebook_username:  xiaotao.nie.5
-linkedin_username:  小涛-聂-80964aba
 
 # Build settings
 anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
