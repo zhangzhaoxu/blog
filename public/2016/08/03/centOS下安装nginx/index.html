@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="聂小涛的博客">
+    <meta name="keyword" content="腾讯">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        centOS7安装nginx - AirCloud的博客 | AirCloud&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> sometimes code， sometimes design </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Xiaotao Nie</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> sometimes code， sometimes design </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        centOS7安装nginx
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2016-08-03 21:16:24</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#centOS" title="centOS">centOS</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#nginx" title="nginx">nginx</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <p><strong>1.连接自己的服务器</strong></p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@<span class="number">113.25</span><span class="number">.35</span><span class="number">.52</span></span><br></pre></td></tr></table></figure>
+<p>替换成你自己的ip</p>
+<p><strong>2.使用yum安装Nginx</strong></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> nginx</span><br></pre></td></tr></table></figure>
+<p><strong>3.启动Nginx</strong></p>
+<p>刚安装的Nginx不会自行启动。运行Nginx以及设置开机自启:<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="literal">start</span> nginx.service</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="builtin-name">enable</span> nginx.service</span><br></pre></td></tr></table></figure>
+<p>如果一切进展顺利的话，现在你可以通过你的域名或IP来访问你的Web页面来预览一下Nginx的默认页面</p>
+<p><strong>4.Nginx配置信息</strong><br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">网站文件存放默认目录</span><br><span class="line"></span><br><span class="line"><span class="regexp">/usr/</span>share<span class="regexp">/nginx/</span>html</span><br><span class="line">网站默认站点配置</span><br><span class="line"></span><br><span class="line"><span class="regexp">/etc/</span>nginx<span class="regexp">/conf.d/</span><span class="keyword">default</span>.conf</span><br><span class="line">自定义Nginx站点配置文件存放目录,自己在这里也可以定义别的名字的.conf，这个的作用以后再说。</span><br><span class="line"></span><br><span class="line"><span class="regexp">/etc/</span>nginx<span class="regexp">/conf.d/</span></span><br><span class="line">Nginx全局配置</span><br><span class="line"></span><br><span class="line"><span class="regexp">/etc/</span>nginx/nginx.conf</span><br><span class="line">在这里你可以改变设置用户运行Nginx守护程序进程一样,和工作进程的数量得到了Nginx正在运行,等等。</span><br></pre></td></tr></table></figure></p>
+<p><strong>5.Nginx基本语法</strong><br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nginx -t   						<span class="comment">#测试配置文件是否有语法错误</span></span><br><span class="line">nginx -s reopen					<span class="comment">#重启Nginx</span></span><br><span class="line">nginx -s <span class="keyword">reload</span>					 <span class="comment">#重新加载Nginx配置文件，然后以优雅的方式重启Nginx</span></span><br><span class="line">nginx -s stop  					<span class="comment">#强制停止Nginx服务</span></span><br><span class="line">nginx -s <span class="keyword">quit</span>  						<span class="comment">#优雅地停止Nginx服务（即处理完所有请求后再停止服务）</span></span><br><span class="line">nginx -c [配置文件路径]       <span class="comment">#为 Nginx 指定配置文件</span></span><br></pre></td></tr></table></figure></p>
+
+        
+            <div class="donate-container">
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>

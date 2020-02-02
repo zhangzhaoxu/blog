@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="聂小涛的博客">
+    <meta name="keyword" content="腾讯">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        DNS详解 - AirCloud的博客 | AirCloud&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> sometimes code， sometimes design </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Xiaotao Nie</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#DNS是什么"><span class="toc-text">DNS是什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DNS的大致工作流程"><span class="toc-text">DNS的大致工作流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#通过dig命令理解DNS工作流程"><span class="toc-text">通过dig命令理解DNS工作流程</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> sometimes code， sometimes design </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        DNS详解
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2018-08-18 19:23:55</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#javascript" title="javascript">javascript</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#DNS" title="DNS">DNS</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h4 id="DNS是什么"><a href="#DNS是什么" class="headerlink" title="DNS是什么"></a>DNS是什么</h4><p>我们再访问一个域名的时候，浏览器如何知道资源在哪？浏览器必须要知道某个资源的ip才能访问。DNS的作用就是翻译域名为ip地址。</p>
+<p><em>DNS是一个巨大的分布式数据库</em></p>
+<p>DNS是一个分布在世界各地，有层级关系的数据库。域名通过一定规则映射到到这个数据库中。</p>
+<p>首先我们来看一个域名</p>
+<p><strong><a href="http://www.test.com" target="_blank" rel="noopener">www.test.com</a>.</strong></p>
+<p>注意到域名最后面的 <em>.</em>，这个是一个绝对域名（Fully Qualified Domain Name），简称FQDN. 上面的示例域名全写为<strong><a href="http://www.test.com.root" target="_blank" rel="noopener">www.test.com.root</a></strong></p>
+<p>以实例域名来说</p>
+<ul>
+<li><em>.</em>， 称作 <em>ROOT根域名</em></li>
+<li><em>com</em>， 称作 <em>顶级域名（TLD）</em></li>
+<li><em>test</em>, 称作 <em>次级域名，二级域名（SLD）</em> </li>
+<li><em>www</em>，这一级为主机名，成为 <em>三级域名（host）</em> </li>
+</ul>
+<p>具体格式：<strong>host.sld.tld.root</strong></p>
+<p>DNS便是根据域名的层级进行分级查询.</p>
+<p>上面说了DNS是一个分布式数据库，这个数据库的组成部分便是一个个的数据库，这些服务器用来维护DNS信息。</p>
+<ul>
+<li><p>最顶级是根域名服务器，对应上面域名示例中的 <em>.</em><br>根域名服务器全球有13台，由ICANN管理。根域名服务器用来解析<strong>TLD</strong>服务器</p>
+</li>
+<li><p>TLD服务器（顶级域名服务器）<br>对应上面的 <em>com</em>，类似的 .com, .org等叫做一般通用顶级域(gTLDs), .cn, .jp这样的叫做国家顶级域 (ccTLDs)。TLD服务器负责解析Domain-Level服务器</p>
+</li>
+<li><p>Domain-Level 服务器,对应上面的 <em>test</em>，这个服务器一般会告诉我们某个域名解析出来的IP，比入 <em><a href="http://www.test.com" target="_blank" rel="noopener">www.test.com</a></em>, <em>smartapp.test.com</em></p>
+</li>
+</ul>
+<p>通过上面简单的描述域名的分级和DNS数据库的分级，每个层级的域名服务器只会管理他的下一级，而不会跨级管理，根域名服务器 -&gt; TLD -&gt; Domain-Level -&gt; IP</p>
+<h4 id="DNS的大致工作流程"><a href="#DNS的大致工作流程" class="headerlink" title="DNS的大致工作流程"></a>DNS的大致工作流程</h4><p>我们从输入一个域名到得知这个域名的IP，中间发生了什么？以smartapp.test.com为例</p>
+<ul>
+<li>1、首先浏览器会检查缓存中有没有这个域名对应的IP地址，如果有解析过程会结束。当然这个缓存时间非常短。</li>
+<li>2、如果浏览器缓存中没有，本地host文件，操作系统会先检查本地host有没有此域名的映射关系，有就完成</li>
+<li>3、如果host文件中没有，便会向本地DNS服务器（Hinet服务器）发请求进行查询，此服务器通常是由网络服务供应商（ISP）提供，比如电信，移动。也可以由我们在网络DNS设置中自己配置，常见的配置比如有谷歌的8.8.8.8，如果要查询的域名包含在本地DNS服务器资源中或者缓存了此网址的映射关系，则完成域名解析</li>
+<li>4、如果Hinet服务器解析失败，Hinet服务器就会向13台根DNS服务器发出请求，根DNS服务器收到请求后会判断这个顶级域名（.com) 由谁来授权管理，返回该顶级域名服务器的ip，Hinet服务器继续向负责此顶级域名.com的服务器发请求查询，这台顶级域名服务器收到请求后如果自己无法解析，它就会找到管理.com下一级（.test)DNS服务器（Domain-Level）服务器，并返回ip给Hinet服务器，Hinet服务器继续向此Domain-Level服务器发请求查询，通常这一步会返回域名对应的ip地址。如果没有，将继续重复上面的动作，直到找到为止。</li>
+</ul>
+<p>借用《鸟哥私房菜》的图：<br><img src="http://airtake-public-data-1254153901.cos.ap-shanghai.myqcloud.com/oceanus/image/09228b9c-f08a-5315-a83a-2339f53fab7c.png" width="400" height="auto"></p>
+<h4 id="通过dig命令理解DNS工作流程"><a href="#通过dig命令理解DNS工作流程" class="headerlink" title="通过dig命令理解DNS工作流程"></a>通过dig命令理解DNS工作流程</h4><p>通过上面的描述我们感觉域名解析到ip的过程是一个一级一级的请求过程，我们可以通过<em>dig</em>命令可以清晰的了解到这个过程。</p>
+<p>我们先简单了解常见记录类型</p>
+<ul>
+<li>A，A记录既域名最终对应的ip地址</li>
+<li>CNAME，CNAME记录，将域名的解析转到另一个域名记录上</li>
+<li>NS，NS（Name Server)记录指定此域名由某个域名服务器进行解析</li>
+<li>SOA， SOA（Start Of Authority），起始授权机构的资源记录，听起来比较绕口，SOA记录，这个是区域文件中的强制型记录，必须存在也必须是第一条记录，它记录了解释的域名，主DNS服务器，序列号（是否需要更新的标志），同步时间（从服务器向主服务器同步此区域文件的时间间隔），缓存时间等等。</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">dig</span> <span class="selector-tag">smartapp</span><span class="selector-class">.test</span><span class="selector-class">.com</span></span><br></pre></td></tr></table></figure>
+<p>这条命令列出本次查询的大致信息</p>
+<p><img src="https://images.tuyacn.com/smart/connect-scheme_1557738007_pptao4xf5o" width="400" height="auto"></p>
+<p>客户端（比如浏览器）在查询一个域名的DNS信息的时候，是采用的递归查询的方式的方式，上面已经有详细说明。其中的本地DNS服务器为了获取到域名对应的IP，会使用迭代查询的方式（一步步询问）。通过下面这条命令我们能够比较清晰的<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">dig</span> +<span class="selector-tag">trace</span> <span class="selector-tag">smartapp</span><span class="selector-class">.test</span><span class="selector-class">.com</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="https://images.tuyacn.com/smart/connect-scheme_1557739101_c8w135vid4w" width="600" height="auto"></p>
+<ul>
+<li>本地DNS服务器（172.31.31.31）向所有13台根DNS服务器发出询问（13台根DNS服务器地址不需要查询，已被内置在本地DNS服务器），最先响应的根域名服务器将被缓存，以后只向这台服务器发请请求。如图所示最先响应的是（192.203.230.10），（192.203.230.10）说并不知道smartapp.test.com的具体信息，你去问.com顶级域名服务器去吧，并返回.com顶级域名服务器的所有NS记录</li>
+<li>本地DNS服务器继续向所有.con顶级域名服务器发起询问，（192.52.178.30）如图是响应最快的，（192.52.178.30）顶级域名服务器说我也不知道smartapp.test.com的信息，但是我知道是.test.com是阿里云管理的，并返回阿里云服务器的所有NS记录</li>
+<li>本地服务器继续向所有阿里云DNS服务器发起请求，（203.119.159.111）是响应最快的，（203.119.159.111）说，这个域名是我管理的，并返回smartapp.test.com对应的A记录</li>
+</ul>
+
+        
+            <div class="donate-container">
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>
