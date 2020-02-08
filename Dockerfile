@@ -1,4 +1,4 @@
-FROM huaishuo/nginx
+FROM huaishuo/blog
 
 COPY ./public /usr/share/nginx/blog
 
