@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="怀朔的博客">
+    <meta name="keyword" content="前端">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        js生成html并下载 - 怀朔的博客 | HuaiShuo&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> sometimes code， sometimes design </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>怀朔</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#js生成html并下载"><span class="toc-text">js生成html并下载</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> sometimes code， sometimes design </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        js生成html并下载
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-06-15 11:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#js" title="js">js</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h3 id="js生成html并下载"><a href="#js生成html并下载" class="headerlink" title="js生成html并下载"></a>js生成html并下载</h3><p><strong>方案</strong></p>
+<ul>
+<li>服务端采用<code>react</code>渲染模板，返回<code>string</code></li>
+<li>前端通过<code>blob</code>创建文件，通过<code>objectUrl</code>形式触发下载</li>
+</ul>
+<p>不多bb，直接上代码</p>
+<p><em>server端, 采用koa</em><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; renderToNodeStream, renderToString &#125; <span class="keyword">from</span> <span class="string">'react-dom/server'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> getHtml(ctx) &#123;</span><br><span class="line">  <span class="keyword">const</span> html = renderToString(React.createElement(...))</span><br><span class="line">  ctx.body = html</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><em>前端</em><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fetch(&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> res.blob().then(<span class="function">(<span class="params">blob</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> aLink = <span class="built_in">document</span>.createElement(<span class="string">'a'</span>)</span><br><span class="line">  <span class="keyword">const</span> url = <span class="built_in">window</span>.URL.createObjectURL(blob)</span><br><span class="line">  aLink.href = url</span><br><span class="line">  aLink.download = <span class="string">'test.html'</span></span><br><span class="line">  aLink.click()</span><br><span class="line">  <span class="built_in">window</span>.URL.revokeObjectURL(url)</span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure></p>
+
+        
+            <div class="donate-container">
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>

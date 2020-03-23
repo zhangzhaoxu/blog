@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="怀朔的博客">
+    <meta name="keyword" content="前端">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        RXJS+React 实现Slider - 怀朔的博客 | HuaiShuo&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> sometimes code， sometimes design </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>怀朔</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#RXJS-React-实现Slider"><span class="toc-text">RXJS+React 实现Slider</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> sometimes code， sometimes design </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        RXJS+React 实现Slider
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-08-11 11:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#RxJs" title="RxJs">RxJs</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h3 id="RXJS-React-实现Slider"><a href="#RXJS-React-实现Slider" class="headerlink" title="RXJS+React 实现Slider"></a>RXJS+React 实现Slider</h3><p>不多bb，上代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> styles <span class="keyword">from</span> <span class="string">'./index.scss'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; fromEvent &#125; <span class="keyword">from</span> <span class="string">'rxjs/internal/observable/fromEvent'</span></span><br><span class="line"><span class="keyword">import</span> &#123; mergeMap &#125; <span class="keyword">from</span> <span class="string">'rxjs/internal/operators/mergeMap'</span></span><br><span class="line"><span class="keyword">import</span> &#123; switchMap &#125; <span class="keyword">from</span> <span class="string">'rxjs/internal/operators/switchMap'</span></span><br><span class="line"><span class="keyword">import</span> &#123; takeUntil &#125; <span class="keyword">from</span> <span class="string">'rxjs/internal/operators/takeUntil'</span></span><br><span class="line"><span class="keyword">import</span> &#123; scan &#125; <span class="keyword">from</span> <span class="string">'rxjs/internal/operators/scan'</span></span><br><span class="line"><span class="keyword">import</span> &#123; map &#125; <span class="keyword">from</span> <span class="string">'rxjs/internal/operators/map'</span></span><br><span class="line"><span class="keyword">import</span> &#123; filter &#125; <span class="keyword">from</span> <span class="string">'rxjs/internal/operators/filter'</span></span><br><span class="line"><span class="keyword">import</span> &#123; pairwise &#125; <span class="keyword">from</span> <span class="string">'rxjs/internal/operators/pairwise'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> setTransition = <span class="function">(<span class="params">dom</span>) =&gt;</span> &#123;</span><br><span class="line">  dom.style.transition = <span class="string">`all 0.3s ease`</span></span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> (dom.style.transition = <span class="string">''</span>), <span class="number">300</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> getPos = <span class="function">(<span class="params">e: TouchEvent</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> touch = e.touches[<span class="number">0</span>] || e.changedTouches[<span class="number">0</span>]</span><br><span class="line">  <span class="keyword">return</span> [<span class="built_in">Number</span>(touch.pageX), <span class="built_in">Number</span>(touch.pageY)]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> getX = <span class="function">(<span class="params">e: TouchEvent</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> touch = e.touches[<span class="number">0</span>] || e.changedTouches[<span class="number">0</span>]</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Number</span>(touch.pageX)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> judgeHorizontalOrVerticality = <span class="function">(<span class="params">downPos, firstMovePos</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="built_in">Math</span>.abs(firstMovePos[<span class="number">0</span>] - downPos[<span class="number">0</span>]) &gt;</span><br><span class="line">    <span class="built_in">Math</span>.abs(firstMovePos[<span class="number">1</span>] - downPos[<span class="number">1</span>])</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface IProps &#123;</span><br><span class="line">  imgList: string[]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Index</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span>&lt;<span class="title">IProps</span>, <span class="title">any</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">  private wrapperDom: any           <span class="comment">// 最外层容器dom，宽度固定一屏幕</span></span><br><span class="line">  private imgWrapperWidth: string   <span class="comment">// 图片容器的宽度，宽度动态计算</span></span><br><span class="line">  private canHorizontal: boolean    <span class="comment">// 是否允许上下滑动</span></span><br><span class="line">  private translateX: number = <span class="number">0</span>    <span class="comment">// 当前x轴位移的距离</span></span><br><span class="line">  private wWidth: number            <span class="comment">// 屏幕的宽度，也为容器dom的宽度</span></span><br><span class="line">  private translateXWidth: number   <span class="comment">// 可以在x轴上滑动的最大距离</span></span><br><span class="line">  private pageCount: number         <span class="comment">// 图片数量</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      currentIndex: <span class="number">1</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.pageCount = props.imgList.length</span><br><span class="line">    <span class="keyword">this</span>.imgWrapperWidth = <span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.pageCount * <span class="number">3.75</span>&#125;</span>rem`</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public componentDidMount() &#123;</span><br><span class="line">    <span class="keyword">this</span>.wWidth = <span class="built_in">document</span>.body.clientWidth</span><br><span class="line">    <span class="comment">// 记录可以滑动的最大距离，为图片容器的宽度减去一屏幕的宽度</span></span><br><span class="line">    <span class="keyword">this</span>.translateXWidth = <span class="keyword">this</span>.wrapperDom.clientWidth - <span class="keyword">this</span>.wWidth</span><br><span class="line">    <span class="comment">// 初始化observable并订阅</span></span><br><span class="line">    <span class="keyword">this</span>.initialObservable()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 设置图片容器translateX</span></span><br><span class="line">  private setTranslateX = <span class="function">(<span class="params">endTransX</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 滑动到最右的情况</span></span><br><span class="line">    <span class="keyword">if</span> (endTransX &lt; -<span class="keyword">this</span>.translateXWidth) &#123;</span><br><span class="line">      endTransX = -<span class="keyword">this</span>.translateXWidth</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 滑动到最左的情况</span></span><br><span class="line">    <span class="keyword">if</span> (endTransX &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      endTransX = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 滑动</span></span><br><span class="line">    <span class="keyword">this</span>.wrapperDom.style.transform = <span class="string">`translate(<span class="subst">$&#123;endTransX&#125;</span>px, 0)`</span></span><br><span class="line">    <span class="comment">// 设值</span></span><br><span class="line">    <span class="keyword">this</span>.translateX = endTransX</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private handleTouchmove = <span class="function">(<span class="params">pos: number[]</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> distance = pos[<span class="number">1</span>] - pos[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">const</span> endTransX = <span class="keyword">this</span>.translateX + distance</span><br><span class="line">    <span class="keyword">this</span>.setTranslateX(endTransX)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 判断滑动一段距离后是否加载下一页</span></span><br><span class="line">  private handleChangeIndex = <span class="function">(<span class="params">pos</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; currentIndex &#125; = <span class="keyword">this</span>.state</span><br><span class="line">    <span class="keyword">const</span> distance = pos.endX - pos.startX</span><br><span class="line">    <span class="comment">// 向右， 距离五分之一屏幕，且不为最后一张</span></span><br><span class="line">    <span class="keyword">if</span> (distance &lt; <span class="number">0</span> &amp;&amp;</span><br><span class="line">      distance &lt; -(<span class="keyword">this</span>.wWidth / <span class="number">5</span>) &amp;&amp;</span><br><span class="line">      currentIndex + <span class="number">1</span> &lt;= <span class="keyword">this</span>.pageCount</span><br><span class="line">    ) &#123;</span><br><span class="line">      <span class="comment">// 需要设值动画transition, 并在执行之后清楚掉，至于为什么，试下不清</span></span><br><span class="line">      setTransition(<span class="keyword">this</span>.wrapperDom)</span><br><span class="line">      <span class="keyword">this</span>.setTranslateX(currentIndex * -<span class="keyword">this</span>.wWidth)</span><br><span class="line">      <span class="keyword">this</span>.setState(&#123; <span class="attr">currentIndex</span>: currentIndex + <span class="number">1</span> &#125;)</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (</span><br><span class="line">      <span class="comment">// 向左, 距离五分之一屏幕, 且不为第一张</span></span><br><span class="line">      distance &gt; <span class="number">0</span> &amp;&amp;</span><br><span class="line">      distance &gt; <span class="keyword">this</span>.wWidth / <span class="number">5</span> &amp;&amp;</span><br><span class="line">      currentIndex &gt; <span class="number">1</span></span><br><span class="line">    ) &#123;</span><br><span class="line">      setTransition(<span class="keyword">this</span>.wrapperDom)</span><br><span class="line">      <span class="keyword">this</span>.setTranslateX((currentIndex - <span class="number">2</span>) * -<span class="keyword">this</span>.wWidth)</span><br><span class="line">      <span class="keyword">this</span>.setState(&#123; <span class="attr">currentIndex</span>: currentIndex - <span class="number">1</span> &#125;)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 归位</span></span><br><span class="line">      setTransition(<span class="keyword">this</span>.wrapperDom)</span><br><span class="line">      <span class="keyword">this</span>.setTranslateX((currentIndex - <span class="number">1</span>) * -<span class="keyword">this</span>.wWidth)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private initialObservable = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// touch start Observable</span></span><br><span class="line">    <span class="keyword">const</span> start$ = fromEvent(<span class="keyword">this</span>.wrapperDom, <span class="string">'touchstart'</span>).pipe(map(<span class="function">(<span class="params">e: TouchEvent</span>) =&gt;</span> getPos(e)))</span><br><span class="line">    <span class="comment">// touch move Observable</span></span><br><span class="line">    <span class="keyword">const</span> move$ = fromEvent(<span class="keyword">this</span>.wrapperDom, <span class="string">'touchmove'</span>)</span><br><span class="line">    <span class="comment">// touch end Observable</span></span><br><span class="line">    <span class="keyword">const</span> end$ = fromEvent(<span class="keyword">this</span>.wrapperDom, <span class="string">'touchend'</span>).pipe(map(<span class="function">(<span class="params">e: TouchEvent</span>) =&gt;</span> getPos(e)))</span><br><span class="line"></span><br><span class="line">    <span class="comment">// move同时滑动</span></span><br><span class="line">    start$.pipe(</span><br><span class="line">      mergeMap(<span class="function">(<span class="params">startPos</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> move$.pipe(</span><br><span class="line">          <span class="comment">// 第一次move判定左右还是上下，如果是上下，则禁止左右滑动</span></span><br><span class="line">          <span class="comment">// scan 会缓存上一次计算的值，并在下一次的时候传入第一个参数。首次第一个参数是undefined</span></span><br><span class="line">          scan(<span class="function">(<span class="params">acc: [boolean, TouchEvent], currentMouseEvent: TouchEvent, index</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.canHorizontal = acc[<span class="number">0</span>]</span><br><span class="line">            <span class="keyword">if</span> (index === <span class="number">0</span>) &#123;</span><br><span class="line">              <span class="keyword">const</span> currentPos = getPos(currentMouseEvent)</span><br><span class="line">              <span class="keyword">this</span>.canHorizontal = judgeHorizontalOrVerticality(startPos, currentPos)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> [<span class="keyword">this</span>.canHorizontal, currentMouseEvent]</span><br><span class="line">          &#125;),</span><br><span class="line">          filter(<span class="function">(<span class="params">arr: any</span>) =&gt;</span> arr[<span class="number">0</span>]),</span><br><span class="line">          map(<span class="function">(<span class="params">acc: [boolean, TouchEvent]</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> canMoveEvent = acc[<span class="number">1</span>]</span><br><span class="line">            <span class="comment">// 通过判定已经是左右滑动了，便禁止掉上下滑动，防止左上，左下，右上，右下放下滑动引起效果不好</span></span><br><span class="line">            canMoveEvent.stopPropagation()</span><br><span class="line">            canMoveEvent.preventDefault()</span><br><span class="line">            <span class="keyword">return</span> getX(canMoveEvent)</span><br><span class="line">          &#125;),</span><br><span class="line">          <span class="comment">// pairwise 会缓存最近两次的值，pos1, pos2</span></span><br><span class="line">          pairwise(),</span><br><span class="line">          <span class="comment">// 在滑动结束的时候清楚掉所有值</span></span><br><span class="line">          takeUntil(end$),</span><br><span class="line">        )</span><br><span class="line">      &#125;),</span><br><span class="line">      <span class="comment">// 开始订阅</span></span><br><span class="line">    ).subscribe(<span class="function">(<span class="params">pos</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.handleTouchmove(pos)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 结束后时候换页</span></span><br><span class="line">    start$.pipe(</span><br><span class="line">      switchMap(<span class="function">(<span class="params">startPos</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> end$.pipe(</span><br><span class="line">          map(<span class="function">(<span class="params">endPos</span>) =&gt;</span> (&#123;</span><br><span class="line">            startX: startPos[<span class="number">0</span>],</span><br><span class="line">            endX: endPos[<span class="number">0</span>],</span><br><span class="line">          &#125;)),</span><br><span class="line">        )</span><br><span class="line">      &#125;),</span><br><span class="line">    ).subscribe(<span class="function">(<span class="params">pos</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.canHorizontal &amp;&amp; <span class="keyword">this</span>.handleChangeIndex(pos)</span><br><span class="line">      <span class="keyword">this</span>.canHorizontal = <span class="literal">false</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public render() &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; imgList &#125; = <span class="keyword">this</span>.props</span><br><span class="line">    <span class="keyword">const</span> &#123; currentIndex &#125; = <span class="keyword">this</span>.state</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="comment">// 滑动的父容器，一屏幕宽</span></span><br><span class="line">      &lt;div style=&#123;&#123; <span class="attr">width</span>: <span class="string">'3.75rem'</span> &#125;&#125;&gt;</span><br><span class="line">        <span class="comment">// 所有图片并排，图片容器宽度喂 3.75 * 图片张数</span></span><br><span class="line">        &lt;div</span><br><span class="line">          ref=&#123;(dom) =&gt; <span class="keyword">this</span>.wrapperDom = dom&#125;</span><br><span class="line">          style=&#123;&#123; <span class="attr">width</span>: <span class="keyword">this</span>.imgWrapperWidth &#125;&#125;</span><br><span class="line">        &gt;</span><br><span class="line">          &#123;imgList.map(<span class="function">(<span class="params">url, index</span>) =&gt;</span> (&lt;img src=&#123;url&#125; key=&#123;index&#125; /&gt;))&#125;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Index</span><br></pre></td></tr></table></figure>
+
+        
+            <div class="donate-container">
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>

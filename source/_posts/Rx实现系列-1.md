@@ -1,6 +1,6 @@
 ---
-title: RX实现系列1
-date: 2019-03-18 14:00:00
+title: RxJs实现系列1 - Observable
+date: 2019-11-18 14:00:00
 tags:
     - javascript
     - RxJs

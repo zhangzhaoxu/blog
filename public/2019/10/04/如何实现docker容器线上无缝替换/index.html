@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="怀朔的博客">
+    <meta name="keyword" content="前端">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        如何实现线上docker容器的无缝替换 - 怀朔的博客 | HuaiShuo&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> sometimes code， sometimes design </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>怀朔</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何实现线上docker容器的无缝替换"><span class="toc-text">如何实现线上docker容器的无缝替换</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> sometimes code， sometimes design </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        如何实现线上docker容器的无缝替换
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-10-04 15:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#nginx" title="nginx">nginx</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#docker" title="docker">docker</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h3 id="如何实现线上docker容器的无缝替换"><a href="#如何实现线上docker容器的无缝替换" class="headerlink" title="如何实现线上docker容器的无缝替换"></a>如何实现线上docker容器的无缝替换</h3><p>在自己博客线上docker容器部署中发现的问题，如果是先停用旧容器，重新构建新镜像新容器，会有一段不可访问的时间。</p>
+<p>如何能做到无缝替换呢？下面的demo思路是这样</p>
+<ul>
+<li>线上容器取名<code>blog_pro</code>, 新构建容器取名<code>blog_pre</code>，且<code>端口不指定自动生成</code></li>
+<li>准备一份<code>nginx proxy模板代码</code></li>
+<li>发布时先构建<code>blog_pre</code>，然后<code>获取blog_pre端口</code>，根据模板生成<code>新nginx配置</code>，<code>替换nginx配置</code>文件，<code>restart</code>之后，停用删除<code>blog_pro</code>, 重命名<code>blog_pre为blog_pro</code></li>
+</ul>
+<p>下面是一份简易demo</p>
+<p><strong>nginx模板文件</strong><br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span>    <span class="number">80</span>;</span><br><span class="line">  <span class="attribute">server_name</span> <span class="regexp">*.huaishuo.top</span>;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">proxy_set_header</span>  Host       <span class="variable">$host</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span>  X-Real-IP    <span class="variable">$remote_addr</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span>  X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">    <span class="attribute">if</span> (<span class="variable">$host</span> <span class="regexp">~ ^(www)\.huaishuo\.top$)</span>&#123;</span><br><span class="line">                  <span class="attribute">proxy_pass</span> http://127.0.0.1:<span class="variable">$&#123;blog_port&#125;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="attribute">proxy_pass</span>  http://127.0.0.1:3000;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>node服务代码</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>)</span><br><span class="line"><span class="keyword">const</span> downloadRepo = <span class="built_in">require</span>(<span class="string">'download-git-repo'</span>)</span><br><span class="line"><span class="keyword">const</span> &#123; execSync &#125; = <span class="built_in">require</span>(<span class="string">'child_process'</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> resetRepo = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (fs.existsSync(path.join(process.cwd(), <span class="string">'repo'</span>))) &#123;</span><br><span class="line">    execSync(<span class="string">'rm -rf repo'</span>, &#123; <span class="attr">cwd</span>: process.cwd() &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  execSync(<span class="string">'mkdir repo'</span>, &#123; <span class="attr">cwd</span>: process.cwd() &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> clearContainer = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  execSync(<span class="string">'docker rm -f blog_pre || true'</span>, &#123; <span class="attr">stdio</span>: <span class="string">'inherit'</span> &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> buildImage = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  execSync(<span class="string">'docker build -t="blog" .'</span>, &#123; <span class="attr">cwd</span>: path.join(process.cwd(), <span class="string">'repo'</span>), <span class="attr">stdio</span>: <span class="string">'inherit'</span> &#125;)</span><br><span class="line">  execSync(<span class="string">'docker run --name blog_pre -d -p 3000 blog'</span>, &#123; <span class="attr">stdio</span>: <span class="string">'inherit'</span> &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> resetNginx = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> containerPort = execSync(<span class="string">'docker port blog_pre'</span>).toString(<span class="string">'utf8'</span>).split(<span class="string">':'</span>)[<span class="number">1</span>]</span><br><span class="line">  <span class="keyword">const</span> conf = fs.readFileSync(<span class="string">`<span class="subst">$&#123;path.join(process.cwd(), <span class="string">'model'</span>, <span class="string">'custom.conf'</span>)&#125;</span>`</span>, <span class="string">'utf8'</span>)</span><br><span class="line"></span><br><span class="line">  fs.writeFileSync(<span class="string">'/etc/nginx/conf.d/custom.conf'</span>, conf.replace(<span class="string">'$&#123;blog_port&#125;'</span>, containerPort))</span><br><span class="line">  execSync(<span class="string">'nginx -s reload'</span>, &#123; <span class="attr">stdio</span>: <span class="string">'inherit'</span> &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> resetContainer = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  execSync(<span class="string">'docker rm -f blog_pro || true'</span>, &#123; <span class="attr">stdio</span>: <span class="string">'inherit'</span> &#125;)</span><br><span class="line">  execSync(<span class="string">'docker rename blog_pre blog_pro'</span>, &#123; <span class="attr">stdio</span>: <span class="string">'inherit'</span> &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> server = http.createServer(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (req.url === <span class="string">'/deploy'</span>) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      resetRepo()</span><br><span class="line">      <span class="comment">// 下载你的项目代码，项目中有DockerFile</span></span><br><span class="line">      downloadRepo(<span class="string">'你的项目git地址'</span>, path.join(process.cwd(), <span class="string">'repo'</span>), (err) =&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">          res.end()</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="comment">// 清楚可能存在的blog_pre容器</span></span><br><span class="line">          clearContainer()</span><br><span class="line">          <span class="comment">// 构建镜像</span></span><br><span class="line">          buildImage()</span><br><span class="line">          <span class="comment">// 替换nginx文件</span></span><br><span class="line">          resetNginx();</span><br><span class="line">          <span class="comment">// 重置镜像</span></span><br><span class="line">          resetContainer();</span><br><span class="line">          res.end(<span class="built_in">JSON</span>.stringify(&#123;</span><br><span class="line">            success: <span class="literal">true</span>,</span><br><span class="line">            message: <span class="string">'发布成功'</span>,</span><br><span class="line">          &#125;))</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">      res.writeHead(<span class="number">200</span>, &#123;<span class="string">'Content-Type'</span>: <span class="string">'text/plain;charset=utf-8'</span>&#125;);</span><br><span class="line">      res.write(error)</span><br><span class="line">      res.end()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    res.writeHead(<span class="number">200</span>, &#123;<span class="string">'Content-Type'</span>: <span class="string">'text/plain;charset=utf-8'</span>&#125;);</span><br><span class="line">    res.write(<span class="string">'测试测试'</span>)</span><br><span class="line">    res.end()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">server.listen(<span class="number">3333</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'server listened at localhost:3333'</span>)</span><br></pre></td></tr></table></figure></p>
+
+        
+            <div class="donate-container">
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>
