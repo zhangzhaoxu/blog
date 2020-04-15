@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="怀朔的博客">
+    <meta name="keyword" content="前端">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        如何实现线上docker容器的无缝替换 - 怀朔的博客 | HuaiShuo&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> sometimes code， sometimes design </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>怀朔</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> sometimes code， sometimes design </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        如何实现线上docker容器的无缝替换
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-04-13 15:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#面试" title="面试">面试</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <blockquote>
+<p>如何实现高效并发请求</p>
+</blockquote>
+<ul>
+<li>最大请求数上限</li>
+<li><p>超过缓存，最大数并发，结束一个往请求队列推一个</p>
+<blockquote>
+<p>let, var, const 区别</p>
+</blockquote>
+</li>
+<li><p>var 会发生变量提升</p>
+</li>
+<li>let, const 会行程暂时性死区</li>
+<li>let, const 不允许重复声明</li>
+<li>const 必须有初始值</li>
+<li>let const 有块级作用于，var 只有全局作用域和函数作用域</li>
+</ul>
+<blockquote>
+<p>常用正则</p>
+<ul>
+<li>^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(.[a-zA-Z0-9_-]+)+$</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>闭包</p>
+</blockquote>
+<ul>
+<li>闭包是一个函数</li>
+<li>其所在的执行上下文已经出栈</li>
+<li>访问了<code>其所在执行上下文</code>(闭包所在函数对应的执行上下文)变量对象, 函数执行上下文在定义时确定，也说为词法作用域</li>
+<li><p>函数的执行上下文在出栈后，其变量对象会失去引用等待被回收，而闭包的存在会阻止这一过程，因为闭包的作用域链包含了其所在执行上下文的变量对象。</p>
+</li>
+<li><p>JavaScript没有动态作用域，而闭包的本质是静态作用域（静态作用域规则查找一个变量声明时依赖的是源程序中块之间的静态关系），所以函数访问的都是我们定义时候的作用域，也就是词法作用域。所以闭包才会得以实现。</p>
+</li>
+</ul>
+<blockquote>
+<p>this</p>
+</blockquote>
+<ul>
+<li>this不是在定义的时候绑定的，而是在运行时候绑定的上下文环境。this绑定和函数申明无关，而和被调用的方式有关</li>
+<li><p>箭头函数是由外层函数或者全局作用域决定</p>
+<blockquote>
+<p>new</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">newOperator</span>(<span class="params">ctor</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> newObj = &#123;&#125;</span><br><span class="line">    newObj.__proto__ = ctor.prototype</span><br><span class="line">    newObj.constructor = ctor</span><br><span class="line">    <span class="keyword">var</span> argsArr = [].slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>);</span><br><span class="line">    ctor.apply(newObj, argsArr);</span><br><span class="line">    <span class="keyword">return</span> newObj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>继承</p>
+</blockquote>
+</li>
+<li><p>child._prototype = new Parent()</p>
+</li>
+<li><p>parent.call(child, args)</p>
+</li>
+<li><p>完美方案</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">fancyShadowMerge</span>(<span class="params">target, source</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">of</span> <span class="built_in">Reflect</span>.ownKeys(source)) &#123;</span><br><span class="line">        <span class="built_in">Reflect</span>.defineProperty(target, key, <span class="built_in">Reflect</span>.getOwnPropertyDescriptor(source, key))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> target</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Core</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">inherit</span>(<span class="params">child, parent</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> objectPrototype = <span class="built_in">Object</span>.prototype</span><br><span class="line">    <span class="comment">// 继承父类的原型</span></span><br><span class="line">    <span class="keyword">const</span> parentPrototype = <span class="built_in">Object</span>.create(parent.prototype)</span><br><span class="line">    <span class="comment">// const parentPrototype = &#123;&#125;</span></span><br><span class="line">    <span class="comment">// parentPrototype.__proto__ = parent.prototype</span></span><br><span class="line">    <span class="keyword">let</span> childPrototype = child.prototype</span><br><span class="line">    <span class="comment">// 若子类没有继承任何类，直接合并子类原型和父类原型上的所有方法</span></span><br><span class="line">    <span class="comment">// 包含可枚举/不可枚举的方法</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Reflect</span>.getPrototypeOf(childPrototype) === objectPrototype) &#123;</span><br><span class="line">        child.prototype = fancyShadowMerge(parentPrototype, childPrototype)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 若子类已经继承子某个类</span></span><br><span class="line">        <span class="comment">// 父类的原型将在子类原型链的尽头补全</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="built_in">Reflect</span>.getPrototypeOf(childPrototype) !== objectPrototype) &#123;</span><br><span class="line">			    childPrototype = <span class="built_in">Reflect</span>.getPrototypeOf(childPrototype)</span><br><span class="line">        &#125;</span><br><span class="line">		    <span class="built_in">Reflect</span>.setPrototypeOf(childPrototype, parent.prototype)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 重写被污染的子类的constructor</span></span><br><span class="line">    parentPrototype.constructor = child</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>深克隆</p>
+<ul>
+<li>Undefined、Null、Boolean、Number和String 五种基础数据类型不分深克隆，浅克隆</li>
+<li>JSON.stringify JSON.parse 无法实现对函数 、RegExp等特殊对象的克隆,会抛弃对象的constructor,所有的构造函数会指向Object, 对象有循环引用,会报错</li>
+</ul>
+</blockquote>
+<ul>
+<li>简单版深克隆，Date, Reg, Error, new出的对象还不行</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">deepClone</span>(<span class="params">origin, target</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> tar = target || &#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">in</span> origin) &#123;</span><br><span class="line">    	<span class="keyword">if</span> (origin.hasOwnProperty(item)) &#123;</span><br><span class="line">    		<span class="keyword">if</span> (<span class="keyword">typeof</span> origin[item] === <span class="string">'object'</span>) &#123;</span><br><span class="line">    			tar[item] = <span class="built_in">Object</span>.prototype.toString.call(origin[item]) === <span class="string">'[object Array]'</span> ? [] : &#123;&#125;;</span><br><span class="line">    			deepClone(origin[item], tar[item]);</span><br><span class="line">    		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    			tar[item] = origin[item];</span><br><span class="line">    		&#125;</span><br><span class="line">    	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tar;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>完美clone</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepClone</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">const</span> type = <span class="keyword">this</span>.judgeType(data);</span><br><span class="line">	<span class="keyword">let</span> obj;</span><br><span class="line">	<span class="keyword">if</span> (type === <span class="string">'Array'</span>) &#123;</span><br><span class="line">		obj = [];</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, len = data.length; i &lt; len; i++ ) &#123;</span><br><span class="line">			obj.push(<span class="keyword">this</span>.deepClone(data[i]));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (type === <span class="string">'Object'</span>) &#123;</span><br><span class="line">		obj = <span class="keyword">new</span> data.constructor ();<span class="comment">//可保持继承链,解决该问题：如果obj中的对象是由构造函数生成的，则使用深拷贝后，会丢弃对象的constructor；</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> data) &#123;</span><br><span class="line">			obj[key] = <span class="keyword">this</span>.deepClone(data[key]);<span class="comment">//实现深克隆的关键</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> data;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//判断类型函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">judgeType</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (obj <span class="keyword">instanceof</span> Element) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">'element'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(obj).slice(<span class="number">8</span>,<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>get, set</p>
+</blockquote>
+</li>
+</ul>
+<p>-&gt; 原型链</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/11/4/166dee0c1854fab5?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"></p>
+<blockquote>
+<p>跨域</p>
+</blockquote>
+<ul>
+<li>由浏览器对JavaScript限制不能执行其他浏览器的脚本,限制了Cookie, LocalStorage, IndexDB的读取， DOM和JS对象的获取，无法发送Ajax请求</li>
+<li>同源： 域名，协议，端口相同</li>
+<li>jsonp</li>
+<li>cors<ul>
+<li>浏览器Origin, 服务端Access-Control-Allow-Origin. 要想发送cookie，需要服务端Access-Control-Allow-Credentials， 浏览器设置withCredentials</li>
+<li>websocket</li>
+<li>代理跨域，node proxy， nginx，只有浏览器会跨域，服务器并不会</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>从输入域名到浏览器展示发生了哪些事情</p>
+</blockquote>
+<ul>
+<li>通过DNS解析IP，浏览器缓存（极短) -&gt; host -&gt; 服务商DNS （缓存） -&gt; 顶级DNS服务商 -&gt; 次级DNS服务商 … IP (可能有dns-prefetch)</li>
+<li>浏览器发起请求 html （注意浏览器缓存）</li>
+<li>浏览器解析html喂DOM Tree, 并通过CSS解析器解析html中的css，构建Style Rules，两者结合行程Attachment</li>
+<li>渲染</li>
+</ul>
+<blockquote>
+<p>tcp</p>
+</blockquote>
+<ul>
+<li><a href="https://blog.csdn.net/weixin_36431533/article/details/76162577" target="_blank" rel="noopener">https://blog.csdn.net/weixin_36431533/article/details/76162577</a></li>
+</ul>
+<blockquote>
+<p>http1.1</p>
+<ul>
+<li>长链接，一个tcp链接可以发送多个请求不必等待前一个结束，但必须按顺序</li>
+<li>支持只发送header</li>
+<li>host域</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>http2.0</p>
+<ul>
+<li>多路复用，二进制分帧（解决队头阻塞）</li>
+<li>header压缩</li>
+<li>服务器推送</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>https</p>
+</blockquote>
+<ul>
+<li>客户端向服务端443端口发起请求证书，客户端验证这个证书是否由第三方权威机构发布</li>
+<li>客户端使用公钥对之后信息交互用的<code>对称加密算法</code>和<code>对称秘钥</code>进行加密，发送给服务端</li>
+<li>服务端收到信息后，使用私钥进行解密提取对称加密相关算法和秘钥</li>
+<li>后续信息传输使用对称加密</li>
+</ul>
+<blockquote>
+<p>浏览器缓存策略</p>
+</blockquote>
+<ul>
+<li>强制缓存 cache-control</li>
+<li>协商缓存 If-Modified-Since 最后修改时间 Etag 标志</li>
+</ul>
+<blockquote>
+<p>React diff 算法</p>
+</blockquote>
+<ul>
+<li>首先会对新旧树进行一次深度优先编辑，每个节点都会有一个唯一的标记</li>
+<li>遍历过程中，会记录有差异的节点</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> REPLACE = <span class="number">0</span></span><br><span class="line"><span class="keyword">var</span> REORDER = <span class="number">1</span></span><br><span class="line"><span class="keyword">var</span> PROPS = <span class="number">2</span></span><br><span class="line"><span class="keyword">var</span> TEXT = <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// diff 函数，对比两棵树</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">diff</span> (<span class="params">oldTree, newTree</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> index = <span class="number">0</span> <span class="comment">// 当前节点的标志</span></span><br><span class="line">  <span class="keyword">var</span> patches = &#123;&#125; <span class="comment">// 用来记录每个节点差异的对象</span></span><br><span class="line">  dfsWalk(oldTree, newTree, index, patches)</span><br><span class="line">  <span class="keyword">return</span> patches</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对两棵树进行深度优先遍历</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dfsWalk</span> (<span class="params">oldNode, newNode, index, patches</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 对比oldNode和newNode的不同，记录下来</span></span><br><span class="line">  patches[index] = [...]</span><br><span class="line"></span><br><span class="line">  diffChildren(oldNode.children, newNode.children, index, patches)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遍历子节点</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">diffChildren</span> (<span class="params">oldChildren, newChildren, index, patches</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> leftNode = <span class="literal">null</span></span><br><span class="line">  <span class="keyword">var</span> currentNodeIndex = index</span><br><span class="line">  oldChildren.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">child, i</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> newChild = newChildren[i]</span><br><span class="line">    currentNodeIndex = (leftNode &amp;&amp; leftNode.count) <span class="comment">// 计算节点的标识</span></span><br><span class="line">      ? currentNodeIndex + leftNode.count + <span class="number">1</span></span><br><span class="line">      : currentNodeIndex + <span class="number">1</span></span><br><span class="line">    dfsWalk(child, newChild, currentNodeIndex, patches) <span class="comment">// 深度遍历子节点</span></span><br><span class="line">    leftNode = child</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>React fiber</p>
+</blockquote>
+<ul>
+<li><a href="https://segmentfault.com/a/1190000018250127" target="_blank" rel="noopener">https://segmentfault.com/a/1190000018250127</a></li>
+<li><a href="https://segmentfault.com/a/1190000019227307" target="_blank" rel="noopener">https://segmentfault.com/a/1190000019227307</a></li>
+<li><a href="https://www.cnblogs.com/Darlietoothpaste/p/9941117.html" target="_blank" rel="noopener">https://www.cnblogs.com/Darlietoothpaste/p/9941117.html</a></li>
+</ul>
+<ol>
+<li>为了解决老版本更新vDom卡顿的问题</li>
+<li>React Fiber是把一次更新拆成一个个的fiber(fiber指一个任务，有优先级），每完成一个就询问任务调度器有没有更高级的任务</li>
+<li>vDom更新的时候，基于vDom tree生成一颗Fiber tree。 是一个链表，原因是原始vDom tree是采用递归形式处理，很难中断，所以改为了链表，可以采用大循环形式处理（即执行某个fiber后， 会执行他的子元素， 如果没有子元素， 则兄弟元素， 然后又回到父元素， 父兄弟元素…<br>而寻找元素则是根据其上面几个属性return(父元素)，child(子元素)，sibiling(兄弟元素)）</li>
+<li></li>
+</ol>
+<blockquote>
+<p>浏览器Event loop</p>
+</blockquote>
+<ol>
+<li>执行全局同步代码</li>
+<li>执行完后，调用堆栈stack会清空</li>
+<li>从微队列中取出位于队首的任务执行，重复直到微队列清空 （如果执行微队列的过程中，又产生了微任务，则会加入到微队列的末尾，在这个期间被调用执行完）</li>
+<li>微队列执行完之后，此时微队列为空，调用栈stack也为空</li>
+<li>取出宏队列队首的任务，执行完后，检查微队列有没有任务，有就执行微队列</li>
+<li>循环</li>
+</ol>
+<p>浏览器中</p>
+<ul>
+<li>宏任务包括：setTimeout, setInterval, requestAnimationFrame, UI rendering, I/O</li>
+<li>微任务包括：Promise， Object.observer, MutationObserver</li>
+</ul>
+<p>rendering的节点，因为这个是由浏览器自行判断决定的，但是只要执行UI rendering，它的节点是在执行完所有的microtask之后，下一个macrotask之前，紧跟着执行UI render。</p>
+<blockquote>
+<p>Node Event loop</p>
+</blockquote>
+<ol>
+<li>执行全局同步代码</li>
+<li>执行微任务，先执行next tick队列中的所有任务，然后执行 其他 微队列中的任务</li>
+<li>执行宏任务，按照Timers Queue -&gt; 步骤2 -&gt; I/O Queue -&gt; 步骤2 -&gt; Check Queue -&gt; 步骤2 -&gt; Close Callback Queue -&gt; 步骤2 -&gt; Timers Queue ……</li>
+</ol>
+<p>node中</p>
+<ul>
+<li>宏任务包括， timer Queue, IO callcak Queue, Check Queue, Close callback Queue， node中不止一个宏任务队列</li>
+<li>微任务包括： Next Tick Queue， Other Micro Queue</li>
+</ul>
+<blockquote>
+<p>commonjs, AMD, es6 模块</p>
+</blockquote>
+<ol>
+<li>commonjs. nodejs的默认模块方式，以文件为单位，对外不可见，global定义全局，module.export 导出</li>
+<li>AMD，浏览器设计，通过define方法定义，通过require引用</li>
+<li>es6模块，内置，严格模式，模块级作用域，顶级this=undefined</li>
+</ol>
+<blockquote>
+<p>koa, redux中间件原理</p>
+</blockquote>
+<ul>
+<li>middleware1(middleware2(middleware3(dispatch)))</li>
+<li>柯里化</li>
+<li>reduce实现compose</li>
+</ul>
+<blockquote>
+<p>webpack 常用loader,插件</p>
+</blockquote>
+<p><strong>优化loader</strong></p>
+<ul>
+<li>cache-loader</li>
+<li>thread-loader</li>
+</ul>
+<p><strong>优化插件</strong></p>
+<ul>
+<li>speed-measure-webpack-plugin 监测每个loader时间</li>
+<li>happypack 多进程</li>
+<li>HardSourceWebpackPlugin 中间件缓存</li>
+<li>noParse 不规范的不打包</li>
+<li>ignorePlugin</li>
+<li>DllPlugin 将不会频繁更新的库单独编译</li>
+<li>optimization.splitChunks。抽离公共代码</li>
+<li>webpack-bundle-analyzer 查看包体积</li>
+</ul>
+<p><strong>常用插件</strong></p>
+<ul>
+<li>html-webpack-plugin</li>
+<li>clean-webpack-plugin</li>
+<li>import-plugin</li>
+<li>html-withimg-loader 处理html中相对路径</li>
+<li>copy-webpack-plugin</li>
+<li>providePlugin 全局变量</li>
+<li>mini-css-extract-plugin</li>
+<li>@babel/plugin-syntax-dynamic-import</li>
+<li>HotModuleReplacementPlugin</li>
+</ul>
+
+        
+            <div class="donate-container">
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+  <p style="font-size: 12px; margin-top: 40px;" class="beian">备案号（ <a style="display: inline; color: #0f73e6;" target="blank" href="http://beian.miit.gov.cn">鲁ICP备20010521号-1</a> ）</p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>
