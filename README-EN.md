@@ -20,3 +20,4 @@ Then visit http://localhost:4000/
 Directly update _config.yml. If you have some problems, please create an issue [there](https://github.com/aircloud/hexo-aircloud-blog/issues)
 
 > Continuous updating
+test
